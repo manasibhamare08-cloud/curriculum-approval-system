@@ -8,11 +8,19 @@ use Illuminate\Http\Request;
 
 class SemesterController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $semesters = Semester::with('academicYear')->get();
+        $search = $request->input('search');
 
-        return view('semesters.index', compact('semesters'));
+        $semesters = Semester::with('academicYear')
+            ->when($search, function ($query, $search) {
+                $query->where('semester_name', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('semesters.index', compact('semesters', 'search'));
     }
 
     public function create()

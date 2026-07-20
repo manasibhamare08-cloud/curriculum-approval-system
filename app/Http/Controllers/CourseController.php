@@ -8,10 +8,20 @@ use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $courses = Course::with('department')->get();
-        return view('courses.index', compact('courses'));
+        $search = $request->input('search');
+
+        $courses = Course::with('department')
+            ->when($search, function ($query, $search) {
+                $query->where('course_name', 'like', "%{$search}%")
+                      ->orWhere('course_code', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('courses.index', compact('courses', 'search'));
     }
 public function create()
 {

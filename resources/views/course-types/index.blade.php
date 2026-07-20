@@ -23,6 +23,21 @@
         </div>
     @endif
 
+    <form method="GET" action="{{ route('course-types.index') }}" class="mb-4 flex gap-2">
+        <input type="text" name="search" value="{{ $search }}"
+               placeholder="Search by course type..."
+               class="border border-gray-300 rounded-lg px-3 py-2 w-full max-w-sm">
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+            Search
+        </button>
+        @if($search)
+            <a href="{{ route('course-types.index') }}"
+               class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
+                Clear
+            </a>
+        @endif
+    </form>
+
     <table class="w-full border border-gray-300 table-fixed">
 
         <thead class="bg-gray-200">
@@ -35,7 +50,7 @@
 
         <tbody>
 
-        @foreach($courseTypes as $courseType)
+        @forelse($courseTypes as $courseType)
 
             <tr class="hover:bg-gray-50">
 
@@ -71,11 +86,21 @@
 
             </tr>
 
-        @endforeach
+        @empty
+            <tr>
+                <td colspan="3" class="border px-6 py-6 text-center text-gray-500">
+                    No records found.
+                </td>
+            </tr>
+        @endforelse
 
         </tbody>
 
     </table>
+
+    <div class="mt-4">
+        {{ $courseTypes->links() }}
+    </div>
 
 </div>
 

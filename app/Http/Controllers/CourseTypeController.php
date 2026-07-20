@@ -7,11 +7,18 @@ use Illuminate\Http\Request;
 
 class CourseTypeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $courseTypes = CourseType::all();
+        $search = $request->input('search');
 
-        return view('course-types.index', compact('courseTypes'));
+        $courseTypes = CourseType::when($search, function ($query, $search) {
+                $query->where('type_name', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('course-types.index', compact('courseTypes', 'search'));
     }
 
 

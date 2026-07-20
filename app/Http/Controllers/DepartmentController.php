@@ -10,11 +10,19 @@ class DepartmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-         $departments = Department::all();
+        $search = $request->input('search');
 
-    return view('departments.index', compact('departments'));
+        $departments = Department::when($search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                      ->orWhere('code', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('departments.index', compact('departments', 'search'));
     }
 
     /**

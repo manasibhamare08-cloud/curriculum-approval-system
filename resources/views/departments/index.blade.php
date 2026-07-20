@@ -18,6 +18,22 @@
             {{ session('success') }}
         </div>
     @endif
+
+    <form method="GET" action="{{ route('departments.index') }}" class="mb-4 flex gap-2">
+        <input type="text" name="search" value="{{ $search }}"
+               placeholder="Search by name or code..."
+               class="border border-gray-300 rounded-lg px-3 py-2 w-full max-w-sm">
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+            Search
+        </button>
+        @if($search)
+            <a href="{{ route('departments.index') }}"
+               class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
+                Clear
+            </a>
+        @endif
+    </form>
+
    <table class="w-full border border-gray-300 table-fixed">
 
     <thead class="bg-gray-200">
@@ -31,7 +47,7 @@
     </thead>
 
     <tbody>
-        @foreach($departments as $department)
+        @forelse($departments as $department)
         <tr class="hover:bg-gray-50">
 
             <td class="border px-6 py-3 text-center">
@@ -69,10 +85,20 @@
             </td>
 
         </tr>
-        @endforeach
+        @empty
+        <tr>
+            <td colspan="5" class="border px-6 py-6 text-center text-gray-500">
+                No departments found.
+            </td>
+        </tr>
+        @endforelse
     </tbody>
 
 </table>
+
+<div class="mt-4">
+    {{ $departments->links() }}
+</div>
 
 </div>
 

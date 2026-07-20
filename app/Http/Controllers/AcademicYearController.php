@@ -7,10 +7,18 @@ use Illuminate\Http\Request;
 
 class AcademicYearController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $academicYears = AcademicYear::all();
-        return view('academic-years.index', compact('academicYears'));
+        $search = $request->input('search');
+
+        $academicYears = AcademicYear::when($search, function ($query, $search) {
+                $query->where('academic_year', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('academic-years.index', compact('academicYears', 'search'));
     }
 
     public function create()

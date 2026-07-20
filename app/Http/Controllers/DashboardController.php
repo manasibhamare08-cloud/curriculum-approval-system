@@ -31,6 +31,23 @@ class DashboardController extends Controller
             ->orWhere('status', 'Rejected by Admin')
             ->count();
 
+        $draft = Curriculum::where('status', 'Draft')->count();
+
+        // Monthly approvals for the last 6 months (based on updated_at when status became Approved)
+        $monthlyApprovals = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $month = now()->subMonths($i);
+            $count = Curriculum::where('status', 'Approved')
+                ->whereYear('updated_at', $month->year)
+                ->whereMonth('updated_at', $month->month)
+                ->count();
+
+            $monthlyApprovals[] = [
+                'label' => $month->format('M Y'),
+                'count' => $count,
+            ];
+        }
+
         return view('dashboard', compact(
             'totalDepartments',
             'totalCourses',
@@ -42,7 +59,9 @@ class DashboardController extends Controller
             'pendingCDC',
             'pendingAdmin',
             'approved',
-            'rejected'
+            'rejected',
+            'draft',
+            'monthlyApprovals'
         ));
     }
 }

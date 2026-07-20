@@ -1,26 +1,34 @@
-<x-app-layout>
+ @extends('layouts.app')
 
-<x-slot name="header">
-    <h2>Edit Course Type</h2>
-</x-slot>
+@section('content')
 
-<form action="{{ route('course-types.update',$courseType->id) }}" method="POST">
+<div class="bg-white rounded-xl shadow p-6 max-w-2xl mx-auto">
 
-    @csrf
-    @method('PUT')
+    <h2 class="text-2xl font-bold mb-6">Edit Course Type</h2>
 
-    <label>Course Type</label><br>
+    <form action="{{ route('course-types.update', $courseType->id) }}" method="POST">
+        @csrf
+        @method('PUT')
 
-    <input type="text"
-           name="type_name"
-           value="{{ $courseType->type_name }}">
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Course Type</label>
+            <input type="text" name="type_name" value="{{ old('type_name', $courseType->type_name) }}"
+                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
 
-    <br><br>
+        <div class="flex gap-3">
+            <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                Update
+            </button>
+            <a href="{{ route('course-types.index') }}"
+               class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
+                Cancel
+            </a>
+        </div>
 
-    <button type="submit">
-        Update
-    </button>
+    </form>
 
-</form>
+</div>
 
-</x-app-layout>
+@endsection

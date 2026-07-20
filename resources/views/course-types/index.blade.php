@@ -1,52 +1,82 @@
-<x-app-layout>
+@extends('layouts.app')
 
-<x-slot name="header">
-    <h2>Course Type Management</h2>
-</x-slot>
+@section('content')
 
-@if(session('success'))
-<p>{{ session('success') }}</p>
-@endif
+<div class="bg-white rounded-xl shadow p-6">
 
-<a href="{{ route('course-types.create') }}">Add Course Type</a>
+    <div class="flex justify-between items-center mb-6">
 
-<br><br>
+        <h2 class="text-2xl font-bold text-gray-800">
+            Course Types
+        </h2>
 
-<table border="1" cellpadding="10">
+        <a href="{{ route('course-types.create') }}"
+           class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
+            + Add Course Type
+        </a>
 
-<tr>
-    <th>ID</th>
-    <th>Course Type</th>
-    <th>Action</th>
-</tr>
+    </div>
 
-@foreach($courseTypes as $courseType)
+    @if(session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-5">
+            {{ session('success') }}
+        </div>
+    @endif
 
-<tr>
+    <table class="w-full border border-gray-300 table-fixed">
 
-<td>{{ $courseType->id }}</td>
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="border px-6 py-3 text-center">ID</th>
+                <th class="border px-6 py-3 text-center">Course Type</th>
+                <th class="border px-6 py-3 text-center">Action</th>
+            </tr>
+        </thead>
 
-<td>{{ $courseType->type_name }}</td>
+        <tbody>
 
-<td>
+        @foreach($courseTypes as $courseType)
 
-<a href="{{ route('course-types.edit',$courseType->id) }}">Edit</a>
+            <tr class="hover:bg-gray-50">
 
-<form action="{{ route('course-types.destroy',$courseType->id) }}" method="POST" style="display:inline;">
+                <td class="border px-6 py-3 text-center">
+                    {{ $courseType->id }}
+                </td>
 
-@csrf
-@method('DELETE')
+                <td class="border px-6 py-3 text-center">
+                    {{ $courseType->type_name }}
+                </td>
 
-<button type="submit">Delete</button>
+                <td class="border px-6 py-3 text-center">
 
-</form>
+                    <a href="{{ route('course-types.edit',$courseType->id) }}"
+                       class="text-blue-600 font-semibold mr-4">
+                        Edit
+                    </a>
 
-</td>
+                    <form action="{{ route('course-types.destroy',$courseType->id) }}"
+                          method="POST"
+                          class="inline">
 
-</tr>
+                        @csrf
+                        @method('DELETE')
 
-@endforeach
+                        <button class="text-red-600 font-semibold">
+                            Delete
+                        </button>
 
-</table>
+                    </form>
 
-</x-app-layout>
+                </td>
+
+            </tr>
+
+        @endforeach
+
+        </tbody>
+
+    </table>
+
+</div>
+
+@endsection

@@ -1,23 +1,33 @@
-<x-app-layout>
+@extends('layouts.app')
 
-<x-slot name="header">
-<h2>Add Academic Year</h2>
-</x-slot>
+@section('content')
 
-<form action="{{ route('academic-years.store') }}" method="POST">
+<div class="bg-white rounded-xl shadow p-6 max-w-2xl mx-auto">
 
-@csrf
+    <h2 class="text-2xl font-bold mb-6">Add Academic Year</h2>
 
-<label>Academic Year</label><br>
+    <form action="{{ route('academic-years.store') }}" method="POST">
+        @csrf
 
-<input type="text" name="academic_year" placeholder="2025-26">
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Academic Year</label>
+            <input type="text" name="academic_year" placeholder="2025-26" value="{{ old('academic_year') }}"
+                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
 
-<br><br>
+        <div class="flex gap-3">
+            <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                Save
+            </button>
+            <a href="{{ route('academic-years.index') }}"
+               class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
+                Cancel
+            </a>
+        </div>
 
-<button type="submit">
-Save
-</button>
+    </form>
 
-</form>
+</div>
 
-</x-app-layout>
+@endsection

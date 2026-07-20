@@ -1,57 +1,119 @@
-<x-app-layout>
+@extends('layouts.app')
 
-<x-slot name="header">
-    <h2>Course Management</h2>
-</x-slot>
+@section('content')
 
-@if(session('success'))
-    <p>{{ session('success') }}</p>
-@endif
+<div class="bg-white rounded-xl shadow p-6">
 
-<a href="{{ route('courses.create') }}">Add Course</a>
+    <div class="flex justify-between items-center mb-6">
 
-<br><br>
+        <h2 class="text-2xl font-bold text-gray-800">
+            Course Management
+        </h2>
 
-<table border="1" cellpadding="10">
+        <a href="{{ route('courses.create') }}"
+           class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
+            + Add Course
+        </a>
 
-<tr>
-    <th>ID</th>
-    <th>Course Name</th>
-    <th>Course Code</th>
-    <th>Credits</th>
-    <th>Semester</th>
-    <th>Course Type</th>
-    <th>Department</th>
-    <th>Action</th>
-</tr>
+    </div>
 
-@foreach($courses as $course)
+    @if(session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-5">
+            {{ session('success') }}
+        </div>
+    @endif
 
-<tr>
+    <table class="w-full border border-gray-300 table-fixed">
 
-    <td>{{ $course->id }}</td>
-    <td>{{ $course->course_name }}</td>
-    <td>{{ $course->course_code }}</td>
-    <td>{{ $course->credits }}</td>
-    <td>{{ $course->semester }}</td>
-    <td>{{ $course->course_type }}</td>
-    <td>{{ $course->department->name ?? '-' }}</td>
+        <thead class="bg-gray-200">
 
-    <td>
-        <a href="{{ route('courses.edit', $course->id) }}">Edit</a>
+            <tr>
 
-        <form action="{{ route('courses.destroy', $course->id) }}" method="POST" style="display:inline;">
-            @csrf
-            @method('DELETE')
+                <th class="border px-6 py-3 text-center">ID</th>
 
-            <button type="submit">Delete</button>
-        </form>
-    </td>
+                <th class="border px-6 py-3 text-center">Course Name</th>
 
-</tr>
+                <th class="border px-6 py-3 text-center">Course Code</th>
 
-@endforeach
+                <th class="border px-6 py-3 text-center">Credits</th>
 
-</table>
+                <th class="border px-6 py-3 text-center">Semester</th>
 
-</x-app-layout>
+                <th class="border px-6 py-3 text-center">Course Type</th>
+
+                <th class="border px-6 py-3 text-center">Department</th>
+
+                <th class="border px-6 py-3 text-center">Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        @foreach($courses as $course)
+
+            <tr class="hover:bg-gray-50">
+
+                <td class="border px-6 py-3 text-center">
+                    {{ $course->id }}
+                </td>
+
+                <td class="border px-6 py-3 text-center">
+                    {{ $course->course_name }}
+                </td>
+
+                <td class="border px-6 py-3 text-center">
+                    {{ $course->course_code }}
+                </td>
+
+                <td class="border px-6 py-3 text-center">
+                    {{ $course->credits }}
+                </td>
+
+                <td class="border px-6 py-3 text-center">
+                    {{ $course->semester }}
+                </td>
+
+                <td class="border px-6 py-3 text-center">
+                    {{ $course->course_type }}
+                </td>
+
+                <td class="border px-6 py-3 text-center">
+                    {{ $course->department->name ?? '-' }}
+                </td>
+
+                <td class="border px-6 py-3 text-center">
+
+                    <a href="{{ route('courses.edit', $course->id) }}"
+                       class="text-blue-600 font-semibold mr-4">
+                        Edit
+                    </a>
+
+                    <form action="{{ route('courses.destroy', $course->id) }}"
+                          method="POST"
+                          class="inline">
+
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit"
+                                class="text-red-600 font-semibold">
+                            Delete
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+        @endforeach
+
+        </tbody>
+
+    </table>
+
+</div>
+
+@endsection

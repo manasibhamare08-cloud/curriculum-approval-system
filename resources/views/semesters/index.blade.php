@@ -1,55 +1,94 @@
-<x-app-layout>
+@extends('layouts.app')
 
-<x-slot name="header">
-    <h2>Semester Management</h2>
-</x-slot>
+@section('content')
 
-@if(session('success'))
-<p>{{ session('success') }}</p>
-@endif
+<div class="bg-white rounded-xl shadow p-6">
 
-<a href="{{ route('semesters.create') }}">Add Semester</a>
+    <div class="flex justify-between items-center mb-6">
 
-<br><br>
+        <h2 class="text-2xl font-bold text-gray-800">
+            Semester Management
+        </h2>
 
-<table border="1" cellpadding="10">
+        <a href="{{ route('semesters.create') }}"
+           class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
+            + Add Semester
+        </a>
 
-<tr>
-    <th>ID</th>
-    <th>Semester</th>
-    <th>Academic Year</th>
-    <th>Action</th>
-</tr>
+    </div>
 
-@foreach($semesters as $semester)
+    @if(session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-5">
+            {{ session('success') }}
+        </div>
+    @endif
 
-<tr>
+    <table class="w-full border border-gray-300 table-fixed">
 
-<td>{{ $semester->id }}</td>
+        <thead class="bg-gray-200">
 
-<td>{{ $semester->semester_name }}</td>
+            <tr>
 
-<td>{{ $semester->academicYear->academic_year }}</td>
+                <th class="border px-6 py-3 text-center">ID</th>
 
-<td>
+                <th class="border px-6 py-3 text-center">Semester</th>
 
-<a href="{{ route('semesters.edit',$semester->id) }}">Edit</a>
+                <th class="border px-6 py-3 text-center">Academic Year</th>
 
-<form action="{{ route('semesters.destroy',$semester->id) }}" method="POST" style="display:inline;">
+                <th class="border px-6 py-3 text-center">Action</th>
 
-@csrf
-@method('DELETE')
+            </tr>
 
-<button type="submit">Delete</button>
+        </thead>
 
-</form>
+        <tbody>
 
-</td>
+        @foreach($semesters as $semester)
 
-</tr>
+            <tr class="hover:bg-gray-50">
 
-@endforeach
+                <td class="border px-6 py-3 text-center">
+                    {{ $semester->id }}
+                </td>
 
-</table>
+                <td class="border px-6 py-3 text-center">
+                    {{ $semester->semester_name }}
+                </td>
 
-</x-app-layout>
+                <td class="border px-6 py-3 text-center">
+                    {{ $semester->academicYear->academic_year ?? '-' }}
+                </td>
+
+                <td class="border px-6 py-3 text-center">
+
+                    <a href="{{ route('semesters.edit',$semester->id) }}"
+                       class="text-blue-600 font-semibold mr-4">
+                        Edit
+                    </a>
+
+                    <form action="{{ route('semesters.destroy',$semester->id) }}"
+                          method="POST"
+                          class="inline">
+
+                        @csrf
+                        @method('DELETE')
+
+                        <button class="text-red-600 font-semibold">
+                            Delete
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+        @endforeach
+
+        </tbody>
+
+    </table>
+
+</div>
+
+@endsection

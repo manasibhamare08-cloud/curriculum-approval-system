@@ -1,54 +1,46 @@
-<x-app-layout>
+@extends('layouts.app')
 
-<x-slot name="header">
-    <h2>Edit Semester</h2>
-</x-slot>
+@section('content')
 
+<div class="bg-white rounded-xl shadow p-6 max-w-2xl mx-auto">
 
-<form action="{{ route('semesters.update',$semester->id) }}" method="POST">
+    <h2 class="text-2xl font-bold mb-6">Edit Semester</h2>
 
-@csrf
-@method('PUT')
+    <form action="{{ route('semesters.update', $semester->id) }}" method="POST">
+        @csrf
+        @method('PUT')
 
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Semester Name</label>
+            <input type="text" name="semester_name" value="{{ old('semester_name', $semester->semester_name) }}"
+                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
 
-<label>Semester Name</label><br>
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Academic Year</label>
+            <select name="academic_year_id"
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                @foreach($academicYears as $year)
+                    <option value="{{ $year->id }}" {{ $year->id == $semester->academic_year_id ? 'selected' : '' }}>
+                        {{ $year->academic_year }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
-<input type="text" 
-name="semester_name"
-value="{{ $semester->semester_name }}">
+        <div class="flex gap-3">
+            <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                Update
+            </button>
+            <a href="{{ route('semesters.index') }}"
+               class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
+                Cancel
+            </a>
+        </div>
 
+    </form>
 
-<br><br>
+</div>
 
-
-<label>Academic Year</label><br>
-
-<select name="academic_year_id">
-
-@foreach($academicYears as $year)
-
-<option value="{{ $year->id }}"
-@if($year->id == $semester->academic_year_id)
-selected
-@endif
->
-{{ $year->academic_year }}
-</option>
-
-@endforeach
-
-</select>
-
-
-<br><br>
-
-
-<button type="submit">
-Update
-</button>
-
-
-</form>
-
-
-</x-app-layout>
+@endsection

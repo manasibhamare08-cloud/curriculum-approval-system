@@ -33,7 +33,8 @@ Route::view('/about', 'about')->name('about');
 
 // Protected Routes
 Route::middleware('auth')->group(function () {
-
+Route::get('/reports/curriculum', [App\Http\Controllers\ReportController::class, 'curriculumReport'])->name('reports.curriculum');
+    Route::get('/reports/curriculum/export', [App\Http\Controllers\ReportController::class, 'curriculumReportExport'])->name('reports.curriculum.export');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])

@@ -153,7 +153,8 @@
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
         <!-- Create Curriculum -->
-        <button class="bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl p-6 transition-all duration-300 text-left">
+        <a href="{{ route('curriculums.create') }}"
+           class="block bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl p-6 transition-all duration-300 text-left">
 
             <i class="fas fa-plus-circle text-3xl text-blue-600 mb-3"></i>
 
@@ -165,10 +166,11 @@
                 Add a new curriculum.
             </p>
 
-        </button>
+        </a>
 
         <!-- Approvals -->
-        <button class="bg-green-50 hover:bg-green-100 border border-green-200 rounded-xl p-6 transition-all duration-300 text-left">
+        <a href="{{ route('curriculums.index') }}"
+           class="block bg-green-50 hover:bg-green-100 border border-green-200 rounded-xl p-6 transition-all duration-300 text-left">
 
             <i class="fas fa-check-circle text-3xl text-green-600 mb-3"></i>
 
@@ -180,10 +182,11 @@
                 Review pending approvals.
             </p>
 
-        </button>
+        </a>
 
         <!-- Reports -->
-        <button class="bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-xl p-6 transition-all duration-300 text-left">
+        <a href="{{ route('reports.curriculum') }}"
+           class="block bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-xl p-6 transition-all duration-300 text-left">
 
             <i class="fas fa-chart-line text-3xl text-purple-600 mb-3"></i>
 
@@ -195,7 +198,7 @@
                 View reports and analytics.
             </p>
 
-        </button>
+        </a>
 
         <!-- Settings -->
         <button class="bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded-xl p-6 transition-all duration-300 text-left">

@@ -51,6 +51,7 @@ class CurriculumController extends Controller
         'course_type_id' => 'required',
         'credits' => 'required|integer',
     ]);
+    $request->merge(['user_id' => auth()->id(), 'status' => 'Draft']);
 
     Curriculum::create($request->all());
 

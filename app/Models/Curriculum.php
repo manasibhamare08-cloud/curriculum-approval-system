@@ -14,11 +14,16 @@ class Curriculum extends Model
         'course_type_id',
         'credits',
         'status',
+        'user_id',
     ];
 
     public function department()
     {
         return $this->belongsTo(Department::class);
+    }
+     public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function course()

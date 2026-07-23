@@ -18,4 +18,9 @@ class FacultyController extends Controller
 
         return view('faculty.dashboard', compact('curriculums'));
     }
+     public function show($id)
+    {
+        $curriculum = Curriculum::where('user_id', Auth::id())->findOrFail($id);
+        return view('faculty.show', compact('curriculum'));
+    }
 }

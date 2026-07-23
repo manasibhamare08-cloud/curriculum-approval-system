@@ -15,6 +15,11 @@ class Curriculum extends Model
         'credits',
         'status',
         'user_id',
+        'course_outcomes',
+        'units',
+        'practicals',
+        'references_list',
+        'assessment_plan',
     ];
 
     public function department()

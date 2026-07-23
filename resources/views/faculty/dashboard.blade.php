@@ -41,7 +41,9 @@
                             <span class="text-yellow-600 font-semibold">{{ $curriculum->status }}</span>
                         @endif
                     </td>
-                    <td class="p-3 text-center space-x-2">
+                  <td class="p-3 text-center space-x-2">
+                        <a href="{{ route('faculty.show', $curriculum->id) }}" class="text-gray-600 font-semibold">View</a>
+
                         @if($curriculum->status == 'Draft' || str_contains($curriculum->status, 'Rejected'))
                             <a href="{{ route('curriculums.edit', $curriculum->id) }}"
                                class="text-blue-600 font-semibold">Edit</a>

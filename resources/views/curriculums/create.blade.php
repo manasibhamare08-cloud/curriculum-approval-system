@@ -69,12 +69,42 @@
             </select>
         </div>
  
-        <div class="mb-6">
+       <div class="mb-6">
             <label class="block text-sm font-medium text-gray-700 mb-1">Credits</label>
             <input type="number" name="credits" value="{{ old('credits') }}"
                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
- 
+
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Course Outcomes</label>
+            <textarea name="course_outcomes" rows="3"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('course_outcomes') }}</textarea>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Units</label>
+            <textarea name="units" rows="3"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('units') }}</textarea>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Practicals</label>
+            <textarea name="practicals" rows="3"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('practicals') }}</textarea>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">References</label>
+            <textarea name="references_list" rows="3"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('references_list') }}</textarea>
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Assessment Plan</label>
+            <textarea name="assessment_plan" rows="3"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('assessment_plan') }}</textarea>
+        </div>
+
         <div class="flex gap-3">
             <button type="submit"
                     class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">

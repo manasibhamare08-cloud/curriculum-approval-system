@@ -23,4 +23,13 @@ class FacultyController extends Controller
         $curriculum = Curriculum::where('user_id', Auth::id())->findOrFail($id);
         return view('faculty.show', compact('curriculum'));
     }
+    public function index()
+    {
+        $total = Curriculum::where('user_id', Auth::id())->count();
+        $drafts = Curriculum::where('user_id', Auth::id())->where('status', 'Draft')->count();
+        $submitted = Curriculum::where('user_id', Auth::id())->where('status', '!=', 'Draft')->count();
+        $approved = Curriculum::where('user_id', Auth::id())->where('status', 'Approved')->count();
+
+        return view('faculty.index', compact('total', 'drafts', 'submitted', 'approved'));
+    }
 }

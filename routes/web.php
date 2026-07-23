@@ -33,7 +33,7 @@ Route::view('/about', 'about')->name('about');
 
 // Protected Routes
 Route::middleware('auth')->group(function () {
-
+    Route::get('/faculty', [FacultyController::class, 'index'])->name('faculty.index');
     Route::get('/faculty/dashboard', [FacultyController::class, 'dashboard'])->name('faculty.dashboard');
     Route::get('/faculty/curriculum/{id}', [FacultyController::class, 'show'])->name('faculty.show');
     Route::get('/reports/curriculum', [App\Http\Controllers\ReportController::class, 'curriculumReport'])->name('reports.curriculum');

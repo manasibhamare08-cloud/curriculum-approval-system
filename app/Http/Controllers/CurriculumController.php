@@ -55,8 +55,15 @@ class CurriculumController extends Controller
 
     Curriculum::create($request->all());
 
+    if (auth()->user()->role == 'faculty') {
+        return redirect()->route('faculty.dashboard')
+                         ->with('success', 'Curriculum Added Successfully.');
+    }
+
     return redirect()->route('curriculums.index')
                      ->with('success', 'Curriculum Added Successfully.');
+
+    
 }
 public function edit($id)
 {

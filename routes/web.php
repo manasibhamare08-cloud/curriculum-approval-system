@@ -35,6 +35,7 @@ Route::view('/about', 'about')->name('about');
 Route::middleware('auth')->group(function () {
     Route::get('/faculty', [FacultyController::class, 'index'])->name('faculty.index');
     Route::get('/faculty/dashboard', [FacultyController::class, 'dashboard'])->name('faculty.dashboard');
+    Route::get('/faculty/submitted', [FacultyController::class, 'submitted'])->name('faculty.submitted');
     Route::get('/faculty/curriculum/{id}', [FacultyController::class, 'show'])->name('faculty.show');
     Route::get('/reports/curriculum', [App\Http\Controllers\ReportController::class, 'curriculumReport'])->name('reports.curriculum');
     Route::get('/reports/curriculum/export', [App\Http\Controllers\ReportController::class, 'curriculumReportExport'])->name('reports.curriculum.export');

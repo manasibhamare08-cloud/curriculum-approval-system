@@ -32,4 +32,14 @@ class FacultyController extends Controller
 
         return view('faculty.index', compact('total', 'drafts', 'submitted', 'approved'));
     }
+    public function submitted()
+    {
+        $curriculums = Curriculum::with(['department', 'course', 'academicYear', 'semester', 'courseType'])
+            ->where('user_id', Auth::id())
+            ->where('status', '!=', 'Draft')
+            ->latest()
+            ->get();
+
+        return view('faculty.submitted', compact('curriculums'));
+    }
 }

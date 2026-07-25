@@ -42,4 +42,13 @@ class FacultyController extends Controller
 
         return view('faculty.submitted', compact('curriculums'));
     }
+    public function approvalStatus()
+    {
+        $curriculums = Curriculum::with(['department', 'course'])
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->get();
+
+        return view('faculty.approval-status', compact('curriculums'));
+    }
 }

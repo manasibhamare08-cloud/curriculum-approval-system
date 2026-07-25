@@ -51,11 +51,19 @@ class CurriculumController extends Controller
         'course_type_id' => 'required',
         'credits' => 'required|integer',
     ]);
+    $request->merge(['user_id' => auth()->id(), 'status' => 'Draft']);
 
     Curriculum::create($request->all());
 
+    if (auth()->user()->role == 'faculty') {
+        return redirect()->route('faculty.dashboard')
+                         ->with('success', 'Curriculum Added Successfully.');
+    }
+
     return redirect()->route('curriculums.index')
                      ->with('success', 'Curriculum Added Successfully.');
+
+    
 }
 public function edit($id)
 {
@@ -89,7 +97,12 @@ public function update(Request $request, $id)
 
     $curriculum = Curriculum::findOrFail($id);
 
-    $curriculum->update($request->all());
+   $curriculum->update($request->all());
+
+    if (auth()->user()->role == 'faculty') {
+        return redirect()->route('faculty.dashboard')
+                         ->with('success', 'Curriculum Updated Successfully.');
+    }
 
     return redirect()->route('curriculums.index')
                      ->with('success', 'Curriculum Updated Successfully.');
@@ -108,12 +121,17 @@ public function submit($id)
     $curriculum = Curriculum::findOrFail($id);
 
     $curriculum->status = 'Pending HOD';
-
     $curriculum->save();
+
+   if (auth()->user()->role == 'faculty') {
+        return redirect()->route('faculty.dashboard')
+                         ->with('success', 'Curriculum Submitted Successfully.');
+    }
 
     return redirect()->route('curriculums.index')
                      ->with('success', 'Curriculum Submitted Successfully.');
 }
+
 public function hodApprove($id)
 {
     $curriculum = Curriculum::findOrFail($id);

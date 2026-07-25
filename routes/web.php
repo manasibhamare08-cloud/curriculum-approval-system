@@ -33,6 +33,7 @@ Route::view('/about', 'about')->name('about');
 
 // Protected Routes
 Route::middleware('auth')->group(function () {
+
     Route::get('/faculty', [FacultyController::class, 'index'])->name('faculty.index');
     Route::get('/faculty/dashboard', [FacultyController::class, 'dashboard'])->name('faculty.dashboard');
     Route::get('/faculty/submitted', [FacultyController::class, 'submitted'])->name('faculty.submitted');

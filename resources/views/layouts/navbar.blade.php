@@ -5,19 +5,23 @@
         <div class="flex items-center space-x-4">
             <img src="{{ asset('images/logo/cams-logo.png') }}"
      alt="CAMS Logo"
-     style="height:430px; width:3000px;">
+     class="h-12 w-auto">
             <h1 class="text-3xl font-bold">CAMS</h1>
         </div>
 
         <!-- Right Side -->
         <div class="flex items-center space-x-4">
-            <button class="bg-white text-blue-900 px-4 py-2 rounded hover:bg-gray-200">
+            <a href="{{ route('profile.edit') }}"
+               class="bg-white text-blue-900 px-4 py-2 rounded hover:bg-gray-200">
                 Profile
-            </button>
+            </a>
 
-            <button class="bg-red-600 px-4 py-2 rounded hover:bg-red-700">
-                Logout
-            </button>
+            <form method="POST" action="{{ route('logout') }}" class="inline">
+                @csrf
+                <button type="submit" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700">
+                    Logout
+                </button>
+            </form>
         </div>
 
     </div>

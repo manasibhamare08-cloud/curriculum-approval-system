@@ -58,7 +58,7 @@
             </li>
 
             <li>
-                <a href="{{ route('faculty.dashboard') }}" class="block px-4 py-2 rounded hover:bg-gray-700">
+<a href="{{ route('faculty.dashboard') }}" class="block px-4 py-2 rounded hover:bg-gray-700">
                     <i class="fa-solid fa-list mr-2"></i> My Curriculums
                 </a>
             </li>
@@ -74,6 +74,13 @@
                     <i class="fa-solid fa-circle-check mr-2"></i> Approval Status
                 </a>
             </li>
+
+            <li>
+                <a href="{{ route('reports.curriculum') }}" class="block px-4 py-2 rounded hover:bg-gray-700">
+                    <i class="fa-solid fa-chart-line mr-2"></i> Reports
+                </a>
+            </li>
+
         </ul>
     </div>
 </aside>

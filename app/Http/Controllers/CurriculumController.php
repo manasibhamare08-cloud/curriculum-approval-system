@@ -56,18 +56,18 @@ class CurriculumController extends Controller
             'course_type_id' => 'required',
             'credits' => 'required|integer',
         ]);
-
+        $request->merge(['user_id' => auth()->id(), 'status' => 'Draft']);
 
         Curriculum::create($request->all());
 
+        if (auth()->user()->role == 'faculty') {
+            return redirect()->route('faculty.dashboard')
+                             ->with('success', 'Curriculum Added Successfully.');
+        }
 
-        return redirect()
-            ->route('curriculums.index')
-            ->with('success','Curriculum Added Successfully.');
+        return redirect()->route('curriculums.index')
+                         ->with('success', 'Curriculum Added Successfully.');
     }
-
-
-
 
     public function edit($id)
     {
@@ -78,7 +78,6 @@ class CurriculumController extends Controller
         $academicYears = AcademicYear::all();
         $semesters = Semester::all();
         $courseTypes = CourseType::all();
-
 
         return view('curriculums.edit', compact(
             'curriculum',

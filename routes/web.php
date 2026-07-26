@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\HodController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\CourseTypeController;
@@ -33,6 +33,15 @@ Route::view('/about', 'about')->name('about');
 
 // Protected Routes
 Route::middleware('auth')->group(function () {
+    Route::get('/hod/dashboard', [HodController::class, 'dashboard'])
+    ->name('hod.dashboard');
+    // HOD Routes
+Route::get('/hod/dashboard', [HodController::class, 'dashboard'])
+    ->name('hod.dashboard');
+
+Route::get('/hod/proposal/{id}', [HodController::class, 'show'])
+    ->name('hod.show');
+    
 Route::get('/reports/curriculum', [App\Http\Controllers\ReportController::class, 'curriculumReport'])->name('reports.curriculum');
     Route::get('/reports/curriculum/export', [App\Http\Controllers\ReportController::class, 'curriculumReportExport'])->name('reports.curriculum.export');
 

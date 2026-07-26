@@ -51,6 +51,29 @@
                     <i class="fa-solid fa-file-lines mr-2"></i> Curriculums
                 </a>
             </li>
+            <li>
+                <a href="{{ route('faculty.index') }}" class="block px-4 py-2 rounded hover:bg-gray-700">
+                    <i class="fa-solid fa-gauge mr-2"></i> Faculty Dashboard
+                </a>
+            </li>
+
+            <li>
+<a href="{{ route('faculty.dashboard') }}" class="block px-4 py-2 rounded hover:bg-gray-700">
+                    <i class="fa-solid fa-list mr-2"></i> My Curriculums
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('faculty.submitted') }}" class="block px-4 py-2 rounded hover:bg-gray-700">
+                    <i class="fa-solid fa-paper-plane mr-2"></i> Submitted Curriculums
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('faculty.approvalStatus') }}" class="block px-4 py-2 rounded hover:bg-gray-700">
+                    <i class="fa-solid fa-circle-check mr-2"></i> Approval Status
+                </a>
+            </li>
 
             <li>
                 <a href="{{ route('reports.curriculum') }}" class="block px-4 py-2 rounded hover:bg-gray-700">

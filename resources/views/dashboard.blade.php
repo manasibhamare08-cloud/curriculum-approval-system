@@ -23,7 +23,7 @@
                 <div class="text-right">
                     <p class="text-gray-500 text-sm">Today's Date</p>
                     <h3 class="text-xl font-bold text-blue-700">
-                        12 July 2026
+                        {{ now()->format('d F Y') }}
                     </h3>
                 </div>
 
@@ -44,7 +44,7 @@
             </p>
 
             <h2 class="text-4xl font-bold text-gray-800 mt-3">
-                120
+                {{ $totalCourses }}
             </h2>
 
             <p class="text-green-600 text-sm mt-4 font-medium">
@@ -71,7 +71,7 @@
             </p>
 
             <h2 class="text-4xl font-bold text-gray-800 mt-3">
-                18
+                {{ $pendingHOD + $pendingCDC + $pendingAdmin }}
             </h2>
 
             <p class="text-yellow-600 text-sm mt-4 font-medium">
@@ -98,7 +98,7 @@
             </p>
 
             <h2 class="text-4xl font-bold text-gray-800 mt-3">
-                90
+                {{ $approved }}
             </h2>
 
             <p class="text-green-600 text-sm mt-4 font-medium">
@@ -125,7 +125,7 @@
             </p>
 
             <h2 class="text-4xl font-bold text-gray-800 mt-3">
-                12
+                {{ $rejected }}
             </h2>
 
             <p class="text-red-600 text-sm mt-4 font-medium">
@@ -140,6 +140,9 @@
     </div>
 
 </div>
+        </div>
+        <!-- END Dashboard Cards grid -->
+
               <!-- Quick Actions -->
 <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 mt-8">
 
@@ -150,7 +153,8 @@
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
         <!-- Create Curriculum -->
-        <button class="bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl p-6 transition-all duration-300 text-left">
+        <a href="{{ route('curriculums.create') }}"
+           class="block bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl p-6 transition-all duration-300 text-left">
 
             <i class="fas fa-plus-circle text-3xl text-blue-600 mb-3"></i>
 
@@ -162,10 +166,11 @@
                 Add a new curriculum.
             </p>
 
-        </button>
+        </a>
 
         <!-- Approvals -->
-        <button class="bg-green-50 hover:bg-green-100 border border-green-200 rounded-xl p-6 transition-all duration-300 text-left">
+        <a href="{{ route('curriculums.index') }}"
+           class="block bg-green-50 hover:bg-green-100 border border-green-200 rounded-xl p-6 transition-all duration-300 text-left">
 
             <i class="fas fa-check-circle text-3xl text-green-600 mb-3"></i>
 
@@ -177,10 +182,11 @@
                 Review pending approvals.
             </p>
 
-        </button>
+        </a>
 
         <!-- Reports -->
-        <button class="bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-xl p-6 transition-all duration-300 text-left">
+        <a href="{{ route('reports.curriculum') }}"
+           class="block bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-xl p-6 transition-all duration-300 text-left">
 
             <i class="fas fa-chart-line text-3xl text-purple-600 mb-3"></i>
 
@@ -192,7 +198,7 @@
                 View reports and analytics.
             </p>
 
-        </button>
+        </a>
 
         <!-- Settings -->
         <button class="bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded-xl p-6 transition-all duration-300 text-left">
@@ -417,19 +423,8 @@
 
         </div>
 
-        <!-- Chart Placeholder -->
-        <div class="h-72 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center bg-gray-50">
-
-            <i class="fas fa-chart-bar text-6xl text-blue-400 mb-4"></i>
-
-            <p class="text-gray-500 text-lg">
-                Bar Chart Placeholder
-            </p>
-
-            <p class="text-sm text-gray-400 mt-2">
-                Chart.js / ApexCharts will be added later
-            </p>
-
+        <div class="h-72">
+            <canvas id="monthlyApprovalsChart"></canvas>
         </div>
 
     </div>
@@ -447,19 +442,8 @@
 
         </div>
 
-        <!-- Chart Placeholder -->
-        <div class="h-72 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center bg-gray-50">
-
-            <i class="fas fa-chart-pie text-6xl text-green-400 mb-4"></i>
-
-            <p class="text-gray-500 text-lg">
-                Pie Chart Placeholder
-            </p>
-
-            <p class="text-sm text-gray-400 mt-2">
-                Dynamic chart will be connected later
-            </p>
-
+        <div class="h-72">
+            <canvas id="approvalStatusChart"></canvas>
         </div>
 
     </div>
@@ -470,6 +454,66 @@
       
 
     </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('Chart.js loaded:', typeof Chart !== 'undefined');
+
+    const monthlyLabels = {!! json_encode(collect($monthlyApprovals)->pluck('label')) !!};
+    const monthlyData = {!! json_encode(collect($monthlyApprovals)->pluck('count')) !!};
+
+    new Chart(document.getElementById('monthlyApprovalsChart'), {
+        type: 'bar',
+        data: {
+            labels: monthlyLabels,
+            datasets: [{
+                label: 'Approved Curriculums',
+                data: monthlyData,
+                backgroundColor: '#2563eb',
+                borderRadius: 6,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, ticks: { stepSize: 1 } }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('approvalStatusChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Draft', 'Pending HOD', 'Pending CDC', 'Pending Admin', 'Approved', 'Rejected'],
+            datasets: [{
+                data: [
+                    {{ $draft }},
+                    {{ $pendingHOD }},
+                    {{ $pendingCDC }},
+                    {{ $pendingAdmin }},
+                    {{ $approved }},
+                    {{ $rejected }}
+                ],
+                backgroundColor: [
+                    '#9ca3af',
+                    '#facc15',
+                    '#fb923c',
+                    '#818cf8',
+                    '#22c55e',
+                    '#ef4444'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
+});
+</script>
 </div>
 
 @endsection

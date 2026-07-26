@@ -1,29 +1,35 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
+@section('content')
+
+    <div class="max-w-4xl mx-auto space-y-6">
+
+        <h2 class="text-2xl font-bold mb-6">Profile Settings</h2>
+
+        @if (session('status') === 'profile-updated')
+            <div class="bg-green-100 text-green-700 p-3 rounded mb-4">
+                Profile updated successfully.
             </div>
+        @endif
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
+        <div class="p-4 sm:p-8 bg-white shadow rounded-lg">
+            <div class="max-w-xl">
+                @include('profile.partials.update-profile-information-form')
             </div>
         </div>
+
+        <div class="p-4 sm:p-8 bg-white shadow rounded-lg">
+            <div class="max-w-xl">
+                @include('profile.partials.update-password-form')
+            </div>
+        </div>
+
+        <div class="p-4 sm:p-8 bg-white shadow rounded-lg">
+            <div class="max-w-xl">
+                @include('profile.partials.delete-user-form')
+            </div>
+        </div>
+
     </div>
-</x-app-layout>
+
+@endsection

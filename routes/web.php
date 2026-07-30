@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\CourseTypeController;
@@ -36,10 +36,16 @@ Route::middleware('auth')->group(function () {
 Route::get('/cdc/dashboard', [App\Http\Controllers\CdcController::class, 'dashboard'])->name('cdc.dashboard');
 Route::get('/cdc/curriculum/{id}', [App\Http\Controllers\CdcController::class, 'show'])->name('cdc.show');
 Route::get('/cdc/dashboard', [App\Http\Controllers\CdcController::class, 'dashboard'])->name('cdc.dashboard');
-Route::get('/reports/curriculum', [App\Http\Controllers\ReportController::class, 'curriculumReport'])->name('reports.curriculum');
+    Route::get('/faculty', [FacultyController::class, 'index'])->name('faculty.index');
+    Route::get('/faculty/dashboard', [FacultyController::class, 'dashboard'])->name('faculty.dashboard');
+    Route::get('/faculty/submitted', [FacultyController::class, 'submitted'])->name('faculty.submitted');
+    Route::get('/faculty/approval-status', [FacultyController::class, 'approvalStatus'])->name('faculty.approvalStatus');
+    Route::get('/faculty/curriculum/{id}', [FacultyController::class, 'show'])->name('faculty.show');
+    Route::get('/reports/curriculum', [App\Http\Controllers\ReportController::class, 'curriculumReport'])->name('reports.curriculum');
     Route::get('/reports/curriculum/export', [App\Http\Controllers\ReportController::class, 'curriculumReportExport'])->name('reports.curriculum.export');
 
     // Profile
+    
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
 

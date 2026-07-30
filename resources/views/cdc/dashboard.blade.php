@@ -4,7 +4,11 @@
 
 <div class="max-w-6xl mx-auto py-8">
 
-    <h2 class="text-2xl font-bold mb-6">CDC Dashboard — Pending Review</h2>
+    <h2 class="text-2xl font-bold mb-4">CDC Dashboard — Pending Review</h2>
+
+    <div class="bg-blue-50 border border-blue-200 text-blue-800 rounded-lg px-4 py-3 mb-4 inline-block">
+        <span class="font-semibold">{{ $pendingCount }}</span> curriculum(s) awaiting CDC review
+    </div>
 
     @if(session('success'))
         <div class="bg-green-100 text-green-700 p-3 rounded mb-4">
@@ -12,8 +16,11 @@
         </div>
     @endif
 
-    <!-- Department Filter -->
-    <form method="GET" action="{{ route('cdc.dashboard') }}" class="mb-4 flex gap-2">
+    <!-- Search + Department Filter -->
+    <form method="GET" action="{{ route('cdc.dashboard') }}" class="mb-4 flex flex-wrap gap-2">
+        <input type="text" name="search" value="{{ $search }}" placeholder="Search by course name..."
+               class="border border-gray-300 rounded-lg px-3 py-2">
+
         <select name="department_id" class="border border-gray-300 rounded-lg px-3 py-2" onchange="this.form.submit()">
             <option value="">All Departments</option>
             @foreach($departments as $department)
@@ -22,7 +29,12 @@
                 </option>
             @endforeach
         </select>
-        @if($departmentId)
+
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+            Search
+        </button>
+
+        @if($departmentId || $search)
             <a href="{{ route('cdc.dashboard') }}"
                class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
                 Clear
@@ -50,15 +62,19 @@
                     <td class="p-3">{{ $curriculum->semester->semester_name ?? '-' }}</td>
                     <td class="p-3">{{ $curriculum->credits }}</td>
                     <td class="p-3 text-center space-x-2">
+                        <a href="{{ route('cdc.show', $curriculum->id) }}" class="text-blue-600 hover:underline text-sm">View</a>
+
                         <form action="{{ route('curriculums.cdcApprove', $curriculum->id) }}" method="POST" class="inline">
                             @csrf
                             @method('PUT')
                             <button class="bg-green-600 text-white px-3 py-1 rounded text-sm">Approve</button>
                         </form>
-                        <form action="{{ route('curriculums.cdcReject', $curriculum->id) }}" method="POST" class="inline">
+
+                        <form action="{{ route('curriculums.cdcReject', $curriculum->id) }}" method="POST" class="inline cdc-reject-form">
                             @csrf
                             @method('PUT')
-                            <button class="bg-red-600 text-white px-3 py-1 rounded text-sm">Reject</button>
+                            <input type="hidden" name="remarks" class="remarks-input">
+                            <button type="button" class="bg-red-600 text-white px-3 py-1 rounded text-sm reject-btn">Reject</button>
                         </form>
                     </td>
                 </tr>
@@ -71,5 +87,20 @@
     </table>
 
 </div>
+
+<script>
+document.querySelectorAll('.reject-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        const reason = prompt("Reason for rejection (faculty will see this):");
+        if (!reason || reason.trim() === '') {
+            alert('A rejection reason is required.');
+            return;
+        }
+        const form = btn.closest('form');
+        form.querySelector('.remarks-input').value = reason;
+        form.submit();
+    });
+});
+</script>
 
 @endsection

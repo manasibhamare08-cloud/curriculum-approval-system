@@ -34,6 +34,8 @@ Route::view('/about', 'about')->name('about');
 // Protected Routes
 Route::middleware('auth')->group(function () {
 Route::get('/cdc/dashboard', [App\Http\Controllers\CdcController::class, 'dashboard'])->name('cdc.dashboard');
+Route::get('/cdc/curriculum/{id}', [App\Http\Controllers\CdcController::class, 'show'])->name('cdc.show');
+Route::get('/cdc/dashboard', [App\Http\Controllers\CdcController::class, 'dashboard'])->name('cdc.dashboard');
 Route::get('/reports/curriculum', [App\Http\Controllers\ReportController::class, 'curriculumReport'])->name('reports.curriculum');
     Route::get('/reports/curriculum/export', [App\Http\Controllers\ReportController::class, 'curriculumReportExport'])->name('reports.curriculum.export');
 

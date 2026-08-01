@@ -16,6 +16,12 @@
         </div>
     @endif
 
+    @if($errors->any())
+        <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+            {{ $errors->first() }}
+        </div>
+    @endif
+
     <!-- Search + Department Filter -->
     <form method="GET" action="{{ route('cdc.dashboard') }}" class="mb-4 flex flex-wrap gap-2">
         <input type="text" name="search" value="{{ $search }}" placeholder="Search by course name..."
@@ -64,10 +70,10 @@
                     <td class="p-3 text-center space-x-2">
                         <a href="{{ route('cdc.show', $curriculum->id) }}" class="text-blue-600 hover:underline text-sm">View</a>
 
-                        <form action="{{ route('curriculums.cdcApprove', $curriculum->id) }}" method="POST" class="inline">
+                        <form action="{{ route('curriculums.cdcApprove', $curriculum->id) }}" method="POST" class="inline approve-form">
                             @csrf
                             @method('PUT')
-                            <button class="bg-green-600 text-white px-3 py-1 rounded text-sm">Approve</button>
+                            <button type="button" class="bg-green-600 text-white px-3 py-1 rounded text-sm approve-btn">Approve</button>
                         </form>
 
                         <form action="{{ route('curriculums.cdcReject', $curriculum->id) }}" method="POST" class="inline cdc-reject-form">
@@ -89,6 +95,14 @@
 </div>
 
 <script>
+document.querySelectorAll('.approve-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        if (confirm('Approve this curriculum? This will move it to the Admin review stage.')) {
+            btn.closest('form').submit();
+        }
+    });
+});
+
 document.querySelectorAll('.reject-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {
         const reason = prompt("Reason for rejection (faculty will see this):");

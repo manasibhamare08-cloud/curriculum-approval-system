@@ -168,10 +168,14 @@ public function cdcApprove($id)
 
 public function cdcReject(Request $request, $id)
 {
+    $request->validate([
+        'remarks' => 'required|string|min:3',
+    ]);
+
     $curriculum = Curriculum::findOrFail($id);
 
     $curriculum->status = 'Rejected by CDC';
-    $curriculum->remarks = $request->input('remarks');
+    $curriculum->remarks = trim($request->input('remarks'));
 
     $curriculum->save();
 

@@ -166,11 +166,12 @@ public function cdcApprove($id)
                      ->with('success', 'Curriculum Approved by CDC.');
 }
 
-public function cdcReject($id)
+public function cdcReject(Request $request, $id)
 {
     $curriculum = Curriculum::findOrFail($id);
 
     $curriculum->status = 'Rejected by CDC';
+    $curriculum->remarks = $request->input('remarks');
 
     $curriculum->save();
 

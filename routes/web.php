@@ -35,7 +35,9 @@ Route::view('/about', 'about')->name('about');
 Route::middleware('auth')->group(function () {
 Route::get('/cdc/dashboard', [App\Http\Controllers\CdcController::class, 'dashboard'])->name('cdc.dashboard');
 Route::get('/cdc/curriculum/{id}', [App\Http\Controllers\CdcController::class, 'show'])->name('cdc.show');
-Route::get('/cdc/dashboard', [App\Http\Controllers\CdcController::class, 'dashboard'])->name('cdc.dashboard');
+Route::post('/cdc/bulk-approve', [App\Http\Controllers\CdcController::class, 'bulkApprove'])->name('cdc.bulkApprove');
+Route::get('/cdc/export', [App\Http\Controllers\CdcController::class, 'export'])->name('cdc.export');
+Route::get('/cdc/history', [App\Http\Controllers\CdcController::class, 'history'])->name('cdc.history');
     Route::get('/faculty', [FacultyController::class, 'index'])->name('faculty.index');
     Route::get('/faculty/dashboard', [FacultyController::class, 'dashboard'])->name('faculty.dashboard');
     Route::get('/faculty/submitted', [FacultyController::class, 'submitted'])->name('faculty.submitted');

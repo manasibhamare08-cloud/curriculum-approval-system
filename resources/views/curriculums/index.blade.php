@@ -21,9 +21,7 @@
     @if(session('success'))
 
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-5">
-
             {{ session('success') }}
-
         </div>
 
     @endif
@@ -107,86 +105,66 @@
                 <td class="border px-4 py-3 text-center">
 
                     @if($curriculum->status == 'Approved')
-                        <span class="text-green-600 font-semibold">Approved</span>
-                    @elseif(str_contains($curriculum->status, 'Rejected'))
-                        <span class="text-red-600 font-semibold">{{ $curriculum->status }}</span>
-                    @elseif($curriculum->status == 'Draft')
-                        <span class="text-gray-500 font-semibold">Draft</span>
+
+                        <span class="text-green-600 font-semibold">
+                            Approved
+                        </span>
+
+                    @elseif(str_contains($curriculum->status,'Rejected'))
+
+                        <span class="text-red-600 font-semibold">
+                            {{ $curriculum->status }}
+                        </span>
+
                     @else
-                        <span class="text-yellow-600 font-semibold">{{ $curriculum->status }}</span>
+
+                        <span class="text-yellow-600 font-semibold">
+                            {{ $curriculum->status }}
+                        </span>
+
                     @endif
 
                 </td>
 
 
 
-                <td class="border px-4 py-3 text-center space-x-2">
+                <td class="border px-4 py-3 text-center">
 
-                    <a href="{{ route('curriculums.edit',$curriculum->id) }}"
+
+                    <!-- View -->
+                    <a href="{{ route('curriculums.show',$curriculum->id) }}"
                        class="text-blue-600 font-semibold">
+                        View
+                    </a>
+
+
+
+                    <!-- Edit -->
+                    <a href="{{ route('curriculums.edit',$curriculum->id) }}"
+                       class="text-green-600 font-semibold ml-2">
                         Edit
                     </a>
 
+
+
+                    <!-- Delete -->
                     <form action="{{ route('curriculums.destroy',$curriculum->id) }}"
-                          method="POST" class="inline">
+                          method="POST"
+                          class="inline ml-2">
+
                         @csrf
                         @method('DELETE')
-                        <button class="text-red-600 font-semibold">Delete</button>
+
+                        <button class="text-red-600 font-semibold"
+                                onclick="return confirm('Delete this curriculum?')">
+
+                            Delete
+
+                        </button>
+
                     </form>
 
-                    @if($curriculum->status == 'Draft')
-                        <form action="{{ route('curriculums.submit', $curriculum->id) }}"
-                              method="POST" class="inline">
-                            @csrf
-                            @method('PUT')
-                            <button class="bg-blue-600 text-white px-2 py-1 rounded text-sm">Submit</button>
-                        </form>
-                    @endif
 
-                    @if($curriculum->status == 'Pending HOD')
-                        <form action="{{ route('curriculums.hodApprove', $curriculum->id) }}"
-                              method="POST" class="inline">
-                            @csrf
-                            @method('PUT')
-                            <button class="bg-green-600 text-white px-2 py-1 rounded text-sm">HOD Approve</button>
-                        </form>
-                        <form action="{{ route('curriculums.hodReject', $curriculum->id) }}"
-                              method="POST" class="inline">
-                            @csrf
-                            @method('PUT')
-                            <button class="bg-red-600 text-white px-2 py-1 rounded text-sm">HOD Reject</button>
-                        </form>
-                    @endif
-
-                    @if($curriculum->status == 'Pending CDC')
-                        <form action="{{ route('curriculums.cdcApprove', $curriculum->id) }}"
-                              method="POST" class="inline">
-                            @csrf
-                            @method('PUT')
-                            <button class="bg-green-600 text-white px-2 py-1 rounded text-sm">CDC Approve</button>
-                        </form>
-                        <form action="{{ route('curriculums.cdcReject', $curriculum->id) }}"
-                              method="POST" class="inline">
-                            @csrf
-                            @method('PUT')
-                            <button class="bg-red-600 text-white px-2 py-1 rounded text-sm">CDC Reject</button>
-                        </form>
-                    @endif
-
-                    @if($curriculum->status == 'Pending Admin')
-                        <form action="{{ route('curriculums.adminApprove', $curriculum->id) }}"
-                              method="POST" class="inline">
-                            @csrf
-                            @method('PUT')
-                            <button class="bg-green-600 text-white px-2 py-1 rounded text-sm">Admin Approve</button>
-                        </form>
-                        <form action="{{ route('curriculums.adminReject', $curriculum->id) }}"
-                              method="POST" class="inline">
-                            @csrf
-                            @method('PUT')
-                            <button class="bg-red-600 text-white px-2 py-1 rounded text-sm">Admin Reject</button>
-                        </form>
-                    @endif
 
                 </td>
 

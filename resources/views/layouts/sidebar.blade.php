@@ -262,6 +262,14 @@
 
 
             <li>
+                <a href="{{ route('cdc.dashboard') }}" class="block px-4 py-2 rounded hover:bg-gray-700">
+                    <i class="fa-solid fa-clipboard-check mr-2"></i> CDC Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('reports.curriculum') }}" class="block px-4 py-2 rounded hover:bg-gray-700">
+                    <i class="fa-solid fa-chart-line mr-2"></i> Reports
                 <a href="{{ route('profile.edit') }}"
                    class="block px-4 py-2 rounded hover:bg-gray-700">
                     <i class="fa-solid fa-user mr-2"></i>
